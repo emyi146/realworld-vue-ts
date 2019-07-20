@@ -1,5 +1,9 @@
 # realworld-vue-ts
 
+Vue Real World Project following the tutorial:
+https://www.youtube.com/watch?v=aKmQfCt-CIA
+
+
 ## Project setup
 ```
 npm install
