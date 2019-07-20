@@ -29,3 +29,4 @@ export default class ArticlePreview extends Vue {
   public article?: Article;
 }
 </script>
+

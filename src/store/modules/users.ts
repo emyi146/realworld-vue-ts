@@ -1,7 +1,7 @@
 import { VuexModule, Module, getModule, MutationAction, Action, Mutation } from 'vuex-module-decorators';
 import store from '@/store';
 import { User, Profile, UserSubmit } from '../models';
-import { loginUser } from '../api';
+import { loginUser, fetchProfile } from '../api';
 @Module({
   namespaced: true,
   name: 'users',
@@ -16,14 +16,29 @@ export class UsersModule extends VuexModule {
   public setUser(user: User) {
     this.user = user;
   }
-  @Action({ commit: 'setUser' })
-  public async login(userSubmit: UserSubmit) {
-    const user = await loginUser(userSubmit);
-    return user;
+  @Mutation
+  public setProfile(profile: Profile) {
+    this.profile = profile;
   }
 
   get username() {
     return this.user && this.user.username || null;
+  }
+
+  @Action({ commit: 'setUser' })
+  public async login(userSubmit: UserSubmit) {
+    try {
+      const user = await loginUser(userSubmit);
+      return user;
+    } catch (e) {
+      throw new Error('Invalid username or password');
+    }
+  }
+
+  @Action({ commit: 'setProfile' })
+  public async loadProfile(username: string) {
+    const profile = await fetchProfile(username);
+    return profile;
   }
 }
 

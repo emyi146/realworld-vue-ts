@@ -13,9 +13,9 @@
           </a>
         </li>
         <li v-if="username" class="nav-item">
-          <a class="nav-link" href>
+          <router-link :to="'/@' +  username" class="nav-link">
             <i class="ion-gear-a"></i>&nbsp;Settings
-          </a>
+          </router-link>
         </li>
         <li v-if="!username" class="nav-item">
           <router-link to="/register" class="nav-link">Sign Up</router-link>
