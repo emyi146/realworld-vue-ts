@@ -1,7 +1,7 @@
 import { VuexModule, Module, getModule, MutationAction, Action, Mutation } from 'vuex-module-decorators';
 import store from '@/store';
-import { User, Profile, UserSubmit } from '../models';
-import { loginUser, fetchProfile } from '../api';
+import { User, Profile, UserSubmit, UserForUpdate } from '../models';
+import { loginUser, fetchProfile, updateUser, setJWT } from '../api';
 @Module({
   namespaced: true,
   name: 'users',
@@ -12,33 +12,27 @@ export class UsersModule extends VuexModule {
   public user: User | null = null;
   public profile: Profile | null = null;
 
-  @Mutation
-  public setUser(user: User) {
-    this.user = user;
-  }
-  @Mutation
-  public setProfile(profile: Profile) {
-    this.profile = profile;
-  }
-
   get username() {
     return this.user && this.user.username || null;
   }
 
-  @Action({ commit: 'setUser' })
+  @MutationAction
   public async login(userSubmit: UserSubmit) {
-    try {
-      const user = await loginUser(userSubmit);
-      return user;
-    } catch (e) {
-      throw new Error('Invalid username or password');
-    }
+    const user = await loginUser(userSubmit);
+    setJWT(user.token);
+    return { user };
   }
 
-  @Action({ commit: 'setProfile' })
+  @MutationAction
   public async loadProfile(username: string) {
     const profile = await fetchProfile(username);
-    return profile;
+    return { profile };
+  }
+
+  @MutationAction
+  public async updateSelfProfile(userUpdateFields: UserForUpdate) {
+    const user = await updateUser(userUpdateFields);
+    return { user };
   }
 }
 

@@ -8,14 +8,17 @@
           <a class="nav-link active" href>Home</a>
         </li>
         <li v-if="username" class="nav-item">
-          <a class="nav-link" href>
-            <i class="ion-compose"></i>&nbsp;New Post
-          </a>
+          <router-link to="/editor" class="nav-link">
+            <i class="ion-compose"></i>&nbsp;New Article
+          </router-link>
         </li>
         <li v-if="username" class="nav-item">
-          <router-link :to="'/@' +  username" class="nav-link">
+          <router-link to="/settings" class="nav-link">
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
+        </li>
+        <li v-if="username" class="nav-item">
+          <router-link :to="'/@' +  username" class="nav-link">{{ username }}</router-link>
         </li>
         <li v-if="!username" class="nav-item">
           <router-link to="/register" class="nav-link">Sign Up</router-link>
