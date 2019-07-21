@@ -62,7 +62,8 @@ import { User } from '@/store/models';
 export default class Settings extends Vue {
   public user: Partial<User> = {};
 
-  public created() {
+  public async created() {
+    await users.loadUser();
     this.user = users.user || {};
   }
 

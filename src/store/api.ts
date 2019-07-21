@@ -25,12 +25,17 @@ export async function fetchProfile(username: string): Promise<Profile> {
   return (response.data as ProfileResponse).profile;
 }
 
+export async function fetchUser(): Promise<User> {
+  const response = await conduitApi.get('/user');
+  return (response.data as UserResponse).user;
+}
+
 export async function getFeed() {
   const response = await conduitApi.get('/articles');
   return response.data as ArticlesResponse;
 }
 
-export async function updateUser(user: UserForUpdate) {
+export async function updateUser(user: UserForUpdate): Promise<User> {
   const response = await conduitApi.put('/user', user);
   return response.data as User;
 }

@@ -1,7 +1,7 @@
-import { VuexModule, Module, getModule, MutationAction, Action, Mutation } from 'vuex-module-decorators';
+import { VuexModule, Module, getModule, MutationAction } from 'vuex-module-decorators';
 import store from '@/store';
 import { User, Profile, UserSubmit, UserForUpdate } from '../models';
-import { loginUser, fetchProfile, updateUser, setJWT } from '../api';
+import { loginUser, fetchProfile, updateUser, setJWT, fetchUser } from '../api';
 @Module({
   namespaced: true,
   name: 'users',
@@ -27,6 +27,12 @@ export class UsersModule extends VuexModule {
   public async loadProfile(username: string) {
     const profile = await fetchProfile(username);
     return { profile };
+  }
+
+  @MutationAction
+  public async loadUser() {
+    const user = await fetchUser();
+    return { user };
   }
 
   @MutationAction
